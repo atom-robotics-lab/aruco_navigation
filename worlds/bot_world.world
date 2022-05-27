@@ -1212,7 +1212,7 @@
             <script>
               <uri>model://aruco_marker3/materials/scripts</uri>
               <uri>model://aruco_marker3/materials/textures</uri>
-              <name>arucomarker/Marker</name>
+              <name>arucomarker3/Marker</name>
             </script>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
@@ -1279,7 +1279,7 @@
             <script>
               <uri>model://aruco_marker2/materials/scripts</uri>
               <uri>model://aruco_marker2/materials/textures</uri>
-              <name>arucomarker/Marker</name>
+              <name>arucomarker2/Marker</name>
             </script>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
@@ -1346,7 +1346,7 @@
             <script>
               <uri>model://aruco_marker1/materials/scripts</uri>
               <uri>model://aruco_marker1/materials/textures</uri>
-              <name>arucomarker/Marker</name>
+              <name>arucomarker1/Marker</name>
             </script>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
