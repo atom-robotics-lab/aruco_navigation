@@ -1,0 +1,14 @@
+material arucomarker1/Marker
+{
+    receive_shadows off
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture 1.png
+            }
+        }
+    }
+}
