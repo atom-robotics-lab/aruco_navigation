@@ -88,38 +88,38 @@
       <pose>-9.82278 1.62418 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>9461 623000000</sim_time>
-      <real_time>26 393630704</real_time>
-      <wall_time>1653713675 974575971</wall_time>
-      <iterations>25803</iterations>
+      <sim_time>10623 485000000</sim_time>
+      <real_time>1362 276060019</real_time>
+      <wall_time>1653763124 277404960</wall_time>
+      <iterations>1161862</iterations>
       <model name='aruco_marker1'>
-        <pose>3.33593 0.713199 0.5 0 -0 0</pose>
+        <pose>-8.08451 0.074764 0.5 0 -0 1.55147</pose>
         <scale>1 1 1</scale>
         <link name='marker'>
-          <pose>3.33593 0.713199 0.5 0 -0 0</pose>
+          <pose>-8.08451 0.074764 0.5 0 -0 1.55147</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -0 0 0 -0 0</acceleration>
-          <wrench>-0 -0 0 0 -0 0</wrench>
+          <acceleration>-0 0 -0 -0 -0 -0</acceleration>
+          <wrench>-0 0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='aruco_marker2'>
-        <pose>-1.00373 0.766658 0.5 0 -0 0</pose>
+        <pose>-5.71295 8.79239 0.5 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='marker'>
-          <pose>-1.00373 0.766658 0.5 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 0 0 0 -0 0</acceleration>
-          <wrench>-0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='aruco_marker3'>
-        <pose>-4.28933 0.849329 0.5 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='marker'>
-          <pose>-4.28933 0.849329 0.5 0 -0 0</pose>
+          <pose>-5.71295 8.79239 0.5 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='aruco_marker3'>
+        <pose>8.05867 7.40778 0.5 -0 -0 -1.59177</pose>
+        <scale>1 1 1</scale>
+        <link name='marker'>
+          <pose>8.05867 7.40778 0.5 -0 -0 -1.59177</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 -0 0 0 -0 0</acceleration>
+          <wrench>0 -0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='grey_wall'>
@@ -258,7 +258,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-1.57415 5.65364 3.16752 0 0.485797 -1.63119</pose>
+        <pose>17.0816 1.20136 9.05491 -0 0.361796 3.04799</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -803,7 +803,7 @@
       </link>
       <pose>-6.1069 10.0764 0 0 -0 0</pose>
     </model>
-    <model name='aruco_marker3'>
+    <model name='aruco_marker1'>
       <link name='marker'>
         <pose>0 0 0 0 -0 0</pose>
         <visual name='visual'>
@@ -814,9 +814,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://aruco_marker3/materials/scripts</uri>
-              <uri>model://aruco_marker3/materials/textures</uri>
-              <name>arucomarker3/Marker</name>
+              <uri>model://aruco_marker1/materials/scripts</uri>
+              <uri>model://aruco_marker1/materials/textures</uri>
+              <name>arucomarker1/Marker</name>
             </script>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
@@ -868,7 +868,7 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
-      <pose>-4.28933 0.849329 0 0 -0 0</pose>
+      <pose>-9.32411 -0.035818 0 0 -0 0</pose>
     </model>
     <model name='aruco_marker2'>
       <link name='marker'>
@@ -935,9 +935,9 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
-      <pose>-1.00373 0.766658 0 0 -0 0</pose>
+      <pose>-6.26663 9.38658 0 0 -0 0</pose>
     </model>
-    <model name='aruco_marker1'>
+    <model name='aruco_marker3'>
       <link name='marker'>
         <pose>0 0 0 0 -0 0</pose>
         <visual name='visual'>
@@ -948,9 +948,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://aruco_marker1/materials/scripts</uri>
-              <uri>model://aruco_marker1/materials/textures</uri>
-              <name>arucomarker1/Marker</name>
+              <uri>model://aruco_marker3/materials/scripts</uri>
+              <uri>model://aruco_marker3/materials/textures</uri>
+              <name>arucomarker3/Marker</name>
             </script>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
@@ -1002,7 +1002,7 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
-      <pose>3.33593 0.713199 0 0 -0 0</pose>
+      <pose>7.94623 8.78134 0 0 -0 0</pose>
     </model>
   </world>
 </sdf>
