@@ -88,10 +88,10 @@
       <pose>-9.82278 1.62418 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>9435 820000000</sim_time>
-      <real_time>223 895216685</real_time>
-      <wall_time>1653666117 83164656</wall_time>
-      <iterations>222677</iterations>
+      <sim_time>9461 623000000</sim_time>
+      <real_time>26 393630704</real_time>
+      <wall_time>1653713675 974575971</wall_time>
+      <iterations>25803</iterations>
       <model name='aruco_marker1'>
         <pose>3.33593 0.713199 0.5 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -108,8 +108,8 @@
         <link name='marker'>
           <pose>-1.00373 0.766658 0.5 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 0 -0 0 -0 0</acceleration>
-          <wrench>-0 0 -0 0 -0 0</wrench>
+          <acceleration>-0 0 0 0 -0 0</acceleration>
+          <wrench>-0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='aruco_marker3'>
@@ -118,8 +118,8 @@
         <link name='marker'>
           <pose>-4.28933 0.849329 0.5 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -0 0 -0 0</acceleration>
-          <wrench>0 0 -0 0 -0 0</wrench>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='grey_wall'>
@@ -252,35 +252,13 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='mr_robot'>
-        <pose>-0.08711 -0.017685 -0.124061 -9.6e-05 -1.12952 -1.61313</pose>
-        <scale>1 1 1</scale>
-        <link name='base_link'>
-          <pose>-0.08711 -0.017685 -0.124061 -9.6e-05 -1.12952 -1.61313</pose>
-          <velocity>0.003416 0.103976 -0.079333 0.837877 -0.02898 -0.001904</velocity>
-          <acceleration>0.899054 1.50328 -1.73481 2.91743 -1.06926 -0.152118</acceleration>
-          <wrench>11.4153 19.0871 -22.0269 0 -0 0</wrench>
-        </link>
-        <link name='l_tyre_1'>
-          <pose>0.013689 0.026826 -0.10485 -9.9e-05 -1.14207 -1.61313</pose>
-          <velocity>0.002944 0.087682 -0.039125 0.837877 -0.02898 -0.001904</velocity>
-          <acceleration>1.10689 2.09873 -1.0736 0.70645 -0.177295 -0.443363</acceleration>
-          <wrench>1.59365 3.02164 -1.54572 0 -0 0</wrench>
-        </link>
-        <link name='r_tyre_1'>
-          <pose>-0.185532 0.035282 -0.104842 -9.7e-05 -1.13437 -1.61313</pose>
-          <velocity>0.00296 0.088055 -0.037813 0.837877 -0.02898 -0.001904</velocity>
-          <acceleration>1.0834 1.54561 -2.81446 0.70645 -0.177295 -0.443363</acceleration>
-          <wrench>1.55983 2.2253 -4.05212 0 -0 0</wrench>
-        </link>
-      </model>
       <light name='sun'>
         <pose>0 0 10 0 -0 0</pose>
       </light>
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-3.54794 15.7659 8.0905 0 0.461797 -1.37119</pose>
+        <pose>-1.57415 5.65364 3.16752 0 0.485797 -1.63119</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -824,380 +802,6 @@
         <kinematic>0</kinematic>
       </link>
       <pose>-6.1069 10.0764 0 0 -0 0</pose>
-    </model>
-    <model name='mr_robot'>
-      <link name='base_link'>
-        <inertial>
-          <pose>0.007272 -0.000784 0.070773 0 -0 0</pose>
-          <mass>12.697</mass>
-          <inertia>
-            <ixx>0.103856</ixx>
-            <ixy>-1.88952e-06</ixy>
-            <ixz>-0.00305118</ixz>
-            <iyy>0.119238</iyy>
-            <iyz>4.63232e-05</iyz>
-            <izz>0.202436</izz>
-          </inertia>
-        </inertial>
-        <collision name='base_link_collision'>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>0.001 0.001 0.001</scale>
-              <uri>/home/arjun/Desktop/catkin_ws/src/MR-Robot/mr_robot_description/meshes/base_link.stl</uri>
-            </mesh>
-          </geometry>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <friction>
-              <ode>
-                <mu>0.2</mu>
-                <mu2>0.2</mu2>
-              </ode>
-              <torsional>
-                <ode/>
-              </torsional>
-            </friction>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <collision name='base_link_fixed_joint_lump__camera_link_collision_1'>
-          <pose>0.0967 -0.001759 0.163682 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.05 0.05 0.05</size>
-            </box>
-          </geometry>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <friction>
-              <ode/>
-              <torsional>
-                <ode/>
-              </torsional>
-            </friction>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <collision name='base_link_fixed_joint_lump__lidar_1_collision_2'>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>0.001 0.001 0.001</scale>
-              <uri>/home/arjun/Desktop/catkin_ws/src/MR-Robot/mr_robot_description/meshes/lidar_1.stl</uri>
-            </mesh>
-          </geometry>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <friction>
-              <ode>
-                <mu>0.2</mu>
-                <mu2>0.2</mu2>
-              </ode>
-              <torsional>
-                <ode/>
-              </torsional>
-            </friction>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name='base_link_visual'>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>0.001 0.001 0.001</scale>
-              <uri>/home/arjun/Desktop/catkin_ws/src/MR-Robot/mr_robot_description/meshes/base_link.stl</uri>
-            </mesh>
-          </geometry>
-          <material>
-            <script>
-              <name>Gazebo/LightBlue</name>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-            </script>
-          </material>
-        </visual>
-        <visual name='base_link_fixed_joint_lump__camera_link_visual_1'>
-          <pose>0.0967 -0.001759 0.163682 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.05 0.05 0.05</size>
-            </box>
-          </geometry>
-        </visual>
-        <visual name='base_link_fixed_joint_lump__lidar_1_visual_2'>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>0.001 0.001 0.001</scale>
-              <uri>/home/arjun/Desktop/catkin_ws/src/MR-Robot/mr_robot_description/meshes/lidar_1.stl</uri>
-            </mesh>
-          </geometry>
-          <material>
-            <script>
-              <name>Gazebo/DarkGrey</name>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-            </script>
-          </material>
-        </visual>
-        <gravity>1</gravity>
-        <sensor name='camera1' type='camera'>
-          <update_rate>30</update_rate>
-          <camera name='head'>
-            <horizontal_fov>1.39626</horizontal_fov>
-            <image>
-              <width>800</width>
-              <height>800</height>
-              <format>R8G8B8</format>
-            </image>
-            <clip>
-              <near>0.02</near>
-              <far>300</far>
-            </clip>
-            <noise>
-              <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0.007</stddev>
-            </noise>
-          </camera>
-          <plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
-            <alwaysOn>1</alwaysOn>
-            <updateRate>0.0</updateRate>
-            <cameraName>rrbot/camera1</cameraName>
-            <imageTopicName>image_raw</imageTopicName>
-            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-            <frameName>camera_link</frameName>
-            <hackBaseline>0.07</hackBaseline>
-            <distortionK1>0.0</distortionK1>
-            <distortionK2>0.0</distortionK2>
-            <distortionK3>0.0</distortionK3>
-            <distortionT1>0.0</distortionT1>
-            <distortionT2>0.0</distortionT2>
-            <robotNamespace>/</robotNamespace>
-          </plugin>
-          <pose>0.0967 -0.001759 0.163682 0 -0 0</pose>
-        </sensor>
-        <self_collide>1</self_collide>
-        <sensor name='front_rplidar' type='ray'>
-          <always_on>1</always_on>
-          <visualize>0</visualize>
-          <update_rate>5</update_rate>
-          <ray>
-            <scan>
-              <horizontal>
-                <samples>360</samples>
-                <resolution>1</resolution>
-                <min_angle>0</min_angle>
-                <max_angle>6.28</max_angle>
-              </horizontal>
-              <vertical>
-                <samples>1</samples>
-                <min_angle>0</min_angle>
-                <max_angle>0</max_angle>
-              </vertical>
-            </scan>
-            <range>
-              <min>0.12</min>
-              <max>6</max>
-              <resolution>0.015</resolution>
-            </range>
-            <noise>
-              <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0.01</stddev>
-            </noise>
-          </ray>
-          <plugin name='gazebo_ros_front_rplidar_controller' filename='libgazebo_ros_laser.so'>
-            <topicName>/laser/scan</topicName>
-            <frameName>lidar_1</frameName>
-            <robotNamespace>/</robotNamespace>
-          </plugin>
-          <pose>0.0967 -0.001759 0.108682 0 -0 0</pose>
-        </sensor>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-      <joint name='left_motor_joint' type='revolute'>
-        <pose relative_to='base_link'>-0.003445 0.09882 0.052283 0 -0 0</pose>
-        <parent>base_link</parent>
-        <child>l_tyre_1</child>
-        <axis>
-          <xyz>0 1 0</xyz>
-          <limit>
-            <lower>-1e+16</lower>
-            <upper>1e+16</upper>
-          </limit>
-          <dynamics>
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>0</spring_stiffness>
-          </dynamics>
-        </axis>
-      </joint>
-      <link name='l_tyre_1'>
-        <pose relative_to='left_motor_joint'>0 0 0 0 -0 0</pose>
-        <inertial>
-          <pose>0 0.002526 -0 0 -0 0</pose>
-          <mass>1.43975</mass>
-          <inertia>
-            <ixx>0.00144</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.00246</iyy>
-            <iyz>0</iyz>
-            <izz>0.00144</izz>
-          </inertia>
-        </inertial>
-        <collision name='l_tyre_1_collision'>
-          <pose>0.003445 -0.09882 -0.052283 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>0.001 0.001 0.001</scale>
-              <uri>/home/arjun/Desktop/catkin_ws/src/MR-Robot/mr_robot_description/meshes/l_tyre_1.stl</uri>
-            </mesh>
-          </geometry>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <friction>
-              <ode>
-                <mu>0.2</mu>
-                <mu2>0.2</mu2>
-              </ode>
-              <torsional>
-                <ode/>
-              </torsional>
-            </friction>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name='l_tyre_1_visual'>
-          <pose>0.003445 -0.09882 -0.052283 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>0.001 0.001 0.001</scale>
-              <uri>/home/arjun/Desktop/catkin_ws/src/MR-Robot/mr_robot_description/meshes/l_tyre_1.stl</uri>
-            </mesh>
-          </geometry>
-          <material>
-            <script>
-              <name>Gazebo/Black</name>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-            </script>
-          </material>
-        </visual>
-        <self_collide>1</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-      <joint name='right_motor_joint' type='revolute'>
-        <pose relative_to='base_link'>-0.003445 -0.10058 0.052283 0 -0 0</pose>
-        <parent>base_link</parent>
-        <child>r_tyre_1</child>
-        <axis>
-          <xyz>0 1 0</xyz>
-          <limit>
-            <lower>-1e+16</lower>
-            <upper>1e+16</upper>
-          </limit>
-          <dynamics>
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>0</spring_stiffness>
-          </dynamics>
-        </axis>
-      </joint>
-      <link name='r_tyre_1'>
-        <pose relative_to='right_motor_joint'>0 0 0 0 -0 0</pose>
-        <inertial>
-          <pose>0 -0.002526 -0 0 -0 0</pose>
-          <mass>1.43975</mass>
-          <inertia>
-            <ixx>0.00144</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.00246</iyy>
-            <iyz>0</iyz>
-            <izz>0.00144</izz>
-          </inertia>
-        </inertial>
-        <collision name='r_tyre_1_collision'>
-          <pose>0.003445 0.10058 -0.052283 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>0.001 0.001 0.001</scale>
-              <uri>/home/arjun/Desktop/catkin_ws/src/MR-Robot/mr_robot_description/meshes/r_tyre_1.stl</uri>
-            </mesh>
-          </geometry>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <friction>
-              <ode>
-                <mu>0.2</mu>
-                <mu2>0.2</mu2>
-              </ode>
-              <torsional>
-                <ode/>
-              </torsional>
-            </friction>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name='r_tyre_1_visual'>
-          <pose>0.003445 0.10058 -0.052283 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>0.001 0.001 0.001</scale>
-              <uri>/home/arjun/Desktop/catkin_ws/src/MR-Robot/mr_robot_description/meshes/r_tyre_1.stl</uri>
-            </mesh>
-          </geometry>
-          <material>
-            <script>
-              <name>Gazebo/Black</name>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-            </script>
-          </material>
-        </visual>
-        <self_collide>1</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-      <plugin name='control' filename='libgazebo_ros_control.so'>
-        <robotNamespace>/</robotNamespace>
-      </plugin>
-      <static>0</static>
-      <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
-        <updateRate>100</updateRate>
-        <leftJoint>left_motor_joint</leftJoint>
-        <rightJoint>right_motor_joint</rightJoint>
-        <publish_rate>10</publish_rate>
-        <wheelSeparation>0.199</wheelSeparation>
-        <wheelDiameter>0.107</wheelDiameter>
-        <commandTopic>cmd_vel</commandTopic>
-        <odometryTopic>odom</odometryTopic>
-        <publishOdom>1</publishOdom>
-        <publishOdomTF>1</publishOdomTF>
-        <publishTF>1</publishTF>
-        <odometryFrame>odom</odometryFrame>
-        <robotBaseFrame>base_link</robotBaseFrame>
-        <odometrySource>world</odometrySource>
-        <covariance_x>0.0001</covariance_x>
-        <covariance_y>0.0001</covariance_y>
-        <covariance_z>0.0001</covariance_z>
-        <robotNamespace>/</robotNamespace>
-      </plugin>
-      <pose>0 0 0.0213 0 -0 2.44</pose>
     </model>
     <model name='aruco_marker3'>
       <link name='marker'>
