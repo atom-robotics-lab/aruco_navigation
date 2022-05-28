@@ -1,0 +1,14 @@
+material arucomarker3/Marker
+{
+    receive_shadows off
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture 3.png
+            }
+        }
+    }
+}
