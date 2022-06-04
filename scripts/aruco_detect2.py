@@ -38,9 +38,12 @@ class aruco_detection:
 
 
 if __name__=="__main__":
-    det=aruco_detection()
-    img=cv2.imread("aruco2.png")
-    det.findArucoMarkers(img)
+    try:
+        det=aruco_detection()
+        img=cv2.imread("aruco2.png")
+        det.findArucoMarkers(img)
+    except:
+        print("No Aruco detected")
     
 
    
