@@ -1,34 +1,46 @@
 import cv2
-import numpy as np
+import cv2.aruco as aruco
+import math
+class aruco_detection:
+    def __init__(self):
+        self.markersize=6
+        self.totalmarkers=250
+
+    def circle_draw(self,m,n):
+        print(m)
+        print(n)
+        x=(m[0]+n[0])/2
+        y=(m[1]+n[1])/2
+        radius=math.sqrt((n[0]-m[0])**2+(n[1]-m[1])**2)/2
+        wt = (x, y, radius)
+        return wt
+    
+    def findArucoMarkers(self,img):
+        self.img=img
+        gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+        key = getattr(aruco, f'DICT_{self.markersize}X{self.markersize}_{self.totalmarkers}')
+        arucoDict = aruco.Dictionary_get(key)
+        arucoParam = aruco.DetectorParameters_create()
+        (bboxs, ids, rejected) = aruco.detectMarkers(gray, arucoDict, parameters = arucoParam)
+        print(bboxs)
+        x,y,radius=self.circle_draw(bboxs[0][0][0],bboxs[0][0][2])
+        print('x:',x,'y:',y,'radius:',radius)
+        cv2.circle(self.img,(int(x),int(y)),int(radius),(312,0,0),3)
+        aruco.drawDetectedMarkers(img, bboxs)
+        cv2.imshow('img',self.img)
+
+        k=cv2.waitKey(0) & 0xff
+        if k==27:
+            exit()
+        return(self.img,(x,y),radius)
 
 
-image = cv2.imread('ss2.png')
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-blur = cv2.GaussianBlur(gray, (3,3), 0)
-thresh = cv2.threshold(blur, 220, 255, cv2.THRESH_BINARY_INV)[1]
+if __name__=="__main__":
+    det=aruco_detection()
+    img=cv2.imread("ss2.png")
+    det.findArucoMarkers(img)
+    
+
+   
 
 
-cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-cnts = cnts[0] if len(cnts) == 2 else cnts[1]
-c = max(cnts, key=cv2.contourArea)
-
-
-left = tuple(c[c[:, :, 0].argmin()][0])
-right = tuple(c[c[:, :, 0].argmax()][0])
-top = tuple(c[c[:, :, 1].argmin()][0])
-bottom = tuple(c[c[:, :, 1].argmax()][0])
-
-
-cv2.drawContours(image, [c], -1, (36, 255, 12), 2)
-cv2.circle(image, left, 8, (0, 50, 255), -1)
-cv2.circle(image, right, 8, (0, 255, 255), -1)
-cv2.circle(image, top, 8, (255, 50, 0), -1)
-cv2.circle(image, bottom, 8, (255, 255, 0), -1)
-
-print('left: {}'.format(left))
-print('right: {}'.format(right))
-print('top: {}'.format(top))
-print('bottom: {}'.format(bottom))
-cv2.imshow('thresh', thresh)
-cv2.imshow('image', image)
-cv2.waitKey()
