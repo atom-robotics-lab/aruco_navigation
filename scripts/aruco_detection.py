@@ -36,7 +36,7 @@ class aruco_detection:
 
             cv2.circle(self.img,(int(x),int(y)),int(radius),(312,0,0),3)
             aruco.drawDetectedMarkers(img, bboxs)
-            cv2.imshow('img',self.img)
+            #cv2.imshow('img',self.img)
             
             #k=cv2.waitKey(0) & 0xff
             #if k==27:
