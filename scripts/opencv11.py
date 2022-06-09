@@ -15,7 +15,7 @@ arucoParams = cv2.aruco.DetectorParameters_create()
 class detection ():
     def __init__ (self) :
 
-        self.center  = 0
+        self.center  = None
         self.markerID1 = None
         self.radius1  = None
 
@@ -52,9 +52,11 @@ class detection ():
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.5, (0, 255, 0), 2)
                 # center = (cX ,cY)
-                self.center = int((topLeft[0] + bottomRight[0]) / 2.0) , int((topLeft[1] + bottomRight[1]) / 2.0)
+                self.center = (((topLeft[0] + bottomRight[0]) / 2.0) , ((topLeft[1] + bottomRight[1]) / 2.0))
+                # print(self.center)
                 self.markerID1 = markerID
-                print(self.markerID1)
+
+                # print(self.markerID1)
                 self.radius1 = radius
 
         key = cv2.waitKey(1) & 0xFF

@@ -1,10 +1,6 @@
 #! /usr/bin/env python3
-from re import X
 import rospy
 from geometry_msgs.msg import Twist
-from nav_msgs.msg import Odometry
-import numpy as np
-# from anushkacv import findArucoMarkers
 from opencv11 import detection
 from cv_bridge import CvBridge, CvBridgeError
 
@@ -26,6 +22,7 @@ class Robot_Controller:
         self.p = 0.01
         self.at = 0.00001
         self.radius_threshold = 90
+        self.id = None
 
     
 
@@ -42,28 +39,44 @@ class Robot_Controller:
             self.image_showing()
         except CvBridgeError as e :
             print(e)
+
+    def aruco_checking(self) :
+
+      if self.id == 0 :
+        return False 
+
+      else :
+        return True
             
     def image_showing (self):   
 
         theta_precision = 30
         dist_precision = 3.0
+        
+
+
+
+        ls = self.aruco_checking()
+
+
+        # if ls == False :
+        #   self.move(0 , 0.5)
+        #   print("finding")
+
+        
+
         detect = detection()
         detection_result = detect.aruco_detection(self.cv1_image)  
-        
-      
+        self.id = detection_result[3]  
+        x_length = detection_result[0].shape[0]
+
+        aruco_postion = detection_result[1][0]
+        theta_error1 = - aruco_postion + int(x_length/2)
+        self.theta_error = theta_error1
 
 
-        if  ( detection_result[3] == None )  :
-          self.move(0 , 0.5)
-          rospy.loginfo("findng aruco")
+        if self.id != None :
 
-        else :
-
-          # cv2.imshow("detected" , detection_result[0])
-          x_length = detection_result[0].shape[0]
-          aruco_postion = detection_result[1][0]
-          theta_error1 = - aruco_postion + int(x_length/2)
-          self.theta_error = theta_error1
           rospy.loginfo("initial theta error" +str(self.theta_error))
           rospy.loginfo("initial radius " +str(detection_result[2]))
 
@@ -85,9 +98,7 @@ class Robot_Controller:
 
             else :
 
-              # self.move (self.at*(-self.radius_threshold + detection_result[2] ), 0 )
               self.move(0.5 , 0)
-              # rospy.loginfo("moving straight")
               print("moving straight")
 
           elif detection_result[2] >= self.radius_threshold :
@@ -104,12 +115,12 @@ class Robot_Controller:
             elif  (  int(x_length)/2 > (aruco_postion))  :
 
               self.move(0 , self.p*self.theta_error )
-              # rospy.loginfo("second_error 3" , str(self.theta_error))
             else :
 
               self.move(0, 0)
-              # rospy.loginfo("bot reached")
+        else :
 
+          self.move(0,0.5)
         cv2.imshow("gray" , detection_result[0])
         cv2.waitKey(1)
 def main():
