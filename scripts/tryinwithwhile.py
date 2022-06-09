@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+from tkinter import X
 import rospy
 from geometry_msgs.msg import Twist
 from opencv11 import detection
@@ -52,30 +53,32 @@ class Robot_Controller:
 
         if (self.Result[3] != None ) and (self.Result[1] != None) and (self.Result[2] != None ):
             aruco_position =  self.Result[1][0]
-            self.position_error = int(x_length)/2 - aruco_position
+            self.theta_error = int(x_length)/2 - aruco_position
 
 
-            
+
+            rospy.loginfo("aruco_postion" +str(aruco_position))
+            rospy.loginfo("x lenght" +str(x_length))
             rospy.loginfo("radius" +str(self.Result[2]))
-            rospy.loginfo("position error " +str(self.position_error))
+            rospy.loginfo("theta error " +str(self.theta_error))
             
             if (self.Result[2] < self.radius_threshold) :
 
-                if self.position_error > 0 :
-                    self.move(0.3 , -self.at*self.position_error)
+                if self.theta_error > 0 :
+                    self.move(0.3 , self.at*self.theta_error)
                     print("left")
-                elif self.position_error < 0 :
-                    self.move(0.3 , self.at*self.position_error)
+                elif self.theta_error < 0 :
+                    self.move(0.3 , self.at*self.theta_error)
                     print("right")
                 else :
                     self.move(0.3 , 0)
                     print("straight")
             else :
 
-                if self.position_error > 0 :
-                    self.move(0 , -self.at*self.position_error)
-                elif self.position_error < 0 :
-                    self.move(0 , self.at*self.position_error)
+                if self.theta_error > 0 :
+                    self.move(0 , self.at*self.theta_error)
+                elif self.theta_error < 0 :
+                    self.move(0 , self.at*self.theta_error)
                 else :
                     self.move(0 , 0)
         else   :
