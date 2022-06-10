@@ -1,5 +1,7 @@
 #! /usr/bin/env python3
-from tkinter import X
+from nav_msgs.msg import Odometry
+from tf.transformations import euler_from_quaternion
+import numpy as np
 import rospy
 from geometry_msgs.msg import Twist
 from opencv11 import detection
@@ -15,6 +17,7 @@ class Robot_Controller:
         self.image_sub = rospy.Subscriber("/rrbot/camera1/image_raw",Image,self.callback)
         self.image_pub = rospy.Publisher("image_topic_2",Image)
         self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        rospy.Subscriber('/odom', Odometry, self.odom_callback)
 
         self.velocity_msg = Twist()
         self.p = 0.01
@@ -22,6 +25,16 @@ class Robot_Controller:
         self.radius_threshold = 90
         self.id = None
         self.distance_precision = 30
+        self.theta_precision = 1
+        self.pi = 1.5735
+
+    def odom_callback(self,data):
+
+        x = data.pose.pose.orientation.x
+        y = data.pose.pose.orientation.y
+        z = data.pose.pose.orientation.z
+        w = data.pose.pose.orientation.w
+        self.pose = [data.pose.pose.position.x, data.pose.pose.position.y, euler_from_quaternion([x,y,z,w])[2]]
 
 
     def move(self,linear,angular):
@@ -31,6 +44,18 @@ class Robot_Controller:
         rospy.loginfo("angular velocity " +str(angular) )
         self.pub.publish(self.velocity_msg)
 
+
+    def parking_bot(self):
+
+        bot_theta = self.pose[2]
+
+        if  bot_theta != np.arcsin(1):
+            self.move(0, 0.1)
+        else :
+            self.move(0,0)
+            print("bot parked")
+
+            
     def callback(self,data):
         try:
             self.cv1_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
@@ -39,6 +64,7 @@ class Robot_Controller:
             
         except CvBridgeError as e :
             print(e)    
+
 
     def control_loop(self):
 
@@ -51,7 +77,7 @@ class Robot_Controller:
 
     
 
-        if (self.Result[3] != None ) and (self.Result[1] != None) and (self.Result[2] != None ):
+        if (self.Result[3] == 2 ) and (self.Result[1] != None) and (self.Result[2] != None ):
             aruco_position =  self.Result[1][0]
             self.theta_error = int(x_length)/2 - aruco_position
 
@@ -75,12 +101,13 @@ class Robot_Controller:
                     print("straight")
             else :
 
-                if self.theta_error > 0 :
+                if self.theta_error > 0 and (self.theta_precision > abs(self.theta_error))  :
                     self.move(0 , self.at*self.theta_error)
-                elif self.theta_error < 0 :
+                elif self.theta_error < 0 and (self.theta_precision > abs(self.theta_error) ):
                     self.move(0 , self.at*self.theta_error)
                 else :
                     self.move(0 , 0)
+                    self.parking_bot()
         else   :
             # self.move(0, 0.2)
             pass
