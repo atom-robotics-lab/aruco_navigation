@@ -22,7 +22,7 @@ class Robot_Controller:
         self.velocity_msg = Twist()
         self.p = 0.01
         self.at = 0.001
-        self.radius_threshold = 90
+        self.radius_threshold = 150
         self.id = None
         self.distance_precision = 30
         self.theta_precision = 1
@@ -48,13 +48,25 @@ class Robot_Controller:
     def parking_bot(self):
 
         bot_theta = self.pose[2]
+        theta_goal = np.arcsin(1)
 
-        if  bot_theta != np.arcsin(1):
-            self.move(0, 0.1)
-        else :
-            self.move(0,0)
-            print("bot parked")
+        rospy.loginfo("bot theta " +str(bot_theta))
+        # rospy.loginfo("sin value " +str(np.arcsin(1)) )
+        bot_reached = False
+        while bot_reached == False :
 
+            new_theta =  - abs(self.pose[2]) + abs(bot_theta)
+            rospy.loginfo("bot theta " +str(self.pose[2]))
+            rospy.loginfo("new_theta" +str(new_theta))
+            if 1.57 > abs(new_theta) :
+                self.move(0,0.2)
+            else :
+                self.move(0,0)
+                print("parked")
+                bot_reached = True
+                
+
+        
             
     def callback(self,data):
         try:
@@ -90,7 +102,7 @@ class Robot_Controller:
             
             if (self.Result[2] < self.radius_threshold) :
 
-                if self.theta_error > 0 :
+                if self.theta_error > 0  and (self.theta_precision > abs(self.theta_error)) :
                     self.move(0.3 , self.at*self.theta_error)
                     print("left")
                 elif self.theta_error < 0 :
@@ -109,7 +121,7 @@ class Robot_Controller:
                     self.move(0 , 0)
                     self.parking_bot()
         else   :
-            # self.move(0, 0.2)
+            self.move(0, 0.2)
             pass
         cv2.imshow("image" , self.Result[0])
         cv2.waitKey(1)        
