@@ -22,7 +22,7 @@ class Robot_Controller:
         self.velocity_msg = Twist()
         self.p = 0.01
         self.at = 0.001
-        self.radius_threshold = 90
+        self.radius_threshold = 150
         self.id = None
         self.distance_precision = 30
         self.theta_precision = 1
@@ -55,7 +55,7 @@ class Robot_Controller:
         bot_reached = False
         while bot_reached == False :
 
-            new_theta =  abs(self.pose[2]) - abs(bot_theta)
+            new_theta =  - abs(self.pose[2]) + abs(bot_theta)
             rospy.loginfo("bot theta " +str(self.pose[2]))
             rospy.loginfo("new_theta" +str(new_theta))
             if 1.57 > abs(new_theta) :
@@ -121,7 +121,7 @@ class Robot_Controller:
                     self.move(0 , 0)
                     self.parking_bot()
         else   :
-            # self.move(0, 0.2)
+            self.move(0, 0.2)
             pass
         cv2.imshow("image" , self.Result[0])
         cv2.waitKey(1)        
