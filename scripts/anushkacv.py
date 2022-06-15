@@ -3,7 +3,7 @@
 
 import cv2
 import math
-vid = cv2.VideoCapture(0)
+vid = cv2.VideoCapture(1)
 
 class aruco_detection:
     def __init__(self):
@@ -61,19 +61,20 @@ class aruco_detection:
 
 
 if __name__=="__main__":
-    ret, frame = vid.read()
+    
 
     det=aruco_detection()
     # img=cv2.imread("/home/ayan/trying.png")
     while True :
-        if ret :
+        ret, frame = vid.read()
 
+        if ret :
             detection = det.findArucoMarkers(frame)
             cv2.imshow('img',detection[0])
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-            
+
 vid.release()
 # Destroy all the windows
 cv2.destroyAllWindows()
