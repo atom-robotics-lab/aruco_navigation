@@ -5,6 +5,7 @@ import numpy as np
 import rospy
 from geometry_msgs.msg import Twist
 from opencv11 import detection
+# from anushkacv import aruco_detection
 from cv_bridge import CvBridge, CvBridgeError
 
 import cv2
@@ -25,10 +26,10 @@ class Robot_Controller:
         self.radius_threshold = 150
         self.id = None
         self.distance_precision = 30
-        self.theta_precision = 1
+        self.theta_precision = 0.5
         self.pi = 1.5735
 
-    def odom_callback(self,data):
+    def odom_callback(self,data): 
 
         x = data.pose.pose.orientation.x
         y = data.pose.pose.orientation.y
@@ -51,19 +52,22 @@ class Robot_Controller:
         theta_goal = np.arcsin(1)
 
         rospy.loginfo("bot theta " +str(bot_theta))
+        self.move(0,0.5)
         # rospy.loginfo("sin value " +str(np.arcsin(1)) )
-        bot_reached = False
-        while bot_reached == False :
+        # bot_reached = False
+        # while bot_reached == False :
 
-            new_theta =  - abs(self.pose[2]) + abs(bot_theta)
-            rospy.loginfo("bot theta " +str(self.pose[2]))
-            rospy.loginfo("new_theta" +str(new_theta))
-            if 1.57 > abs(new_theta) :
-                self.move(0,0.2)
-            else :
-                self.move(0,0)
-                print("parked")
-                bot_reached = True
+        #     self.move(0,0.3)
+
+        #     # new_theta =  - abs(self.pose[2]) + abs(bot_theta)
+        #     # rospy.loginfo("bot theta " +str(self.pose[2]))
+        #     # rospy.loginfo("new_theta" +str(new_theta))
+        #     if 1.57 > abs(new_theta) :
+        #         self.move(0,0.1)
+        #     else :
+        #         self.move(0,0)
+        #         print("parked")
+        #         bot_reached = True
                 
 
         
@@ -102,10 +106,10 @@ class Robot_Controller:
             
             if (self.Result[2] < self.radius_threshold) :
 
-                if self.theta_error > 0  and (self.theta_precision > abs(self.theta_error)) :
+                if self.theta_error > 0  and (self.theta_precision < abs(self.theta_error)) :
                     self.move(0.3 , self.at*self.theta_error)
                     print("left")
-                elif self.theta_error < 0 :
+                elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)) :
                     self.move(0.3 , self.at*self.theta_error)
                     print("right")
                 else :
