@@ -4,7 +4,7 @@ from tf.transformations import euler_from_quaternion
 import numpy as np
 import rospy
 from geometry_msgs.msg import Twist
-from opencv11 import detection
+from opencv import detection
 # from anushkacv import aruco_detection
 from cv_bridge import CvBridge, CvBridgeError
 
@@ -28,6 +28,7 @@ class Robot_Controller:
         self.distance_precision = 30
         self.theta_precision = 0.5
         self.pi = 1.5735
+        self.detect = detection()
 
     def odom_callback(self,data): 
 
@@ -43,6 +44,7 @@ class Robot_Controller:
         self.velocity_msg.angular.z = angular 
         rospy.loginfo("linear velocity " +str(linear))
         rospy.loginfo("angular velocity " +str(angular) )
+
         self.pub.publish(self.velocity_msg)
 
 
@@ -77,6 +79,8 @@ class Robot_Controller:
             self.cv1_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
             
             self.control_loop()
+            rospy.loginfo("Marker Id = " + str(self.detect.markerID1))
+            rospy.loginfo("radius = " + str(self.detect.radius1))
             
         except CvBridgeError as e :
             print(e)    
@@ -85,15 +89,16 @@ class Robot_Controller:
     def control_loop(self):
 
  
-        detect = detection()
-        self.Result = detect.aruco_detection(self.cv1_image)
+
+        self.Result = self.detect.aruco_detection(self.cv1_image)
 
         x_length = self.Result[0].shape[0]
 
 
     
 
-        if (self.Result[3] == 2 ) and (self.Result[1] != None) and (self.Result[2] != None ):
+        flag = True
+        if self.detect.markerID1 == 1 and self.detect.center != None and self.detect.radius1  != None:
             aruco_position =  self.Result[1][0]
             self.theta_error = int(x_length)/2 - aruco_position
 
@@ -103,8 +108,8 @@ class Robot_Controller:
             rospy.loginfo("x lenght" +str(x_length))
             rospy.loginfo("radius" +str(self.Result[2]))
             rospy.loginfo("theta error " +str(self.theta_error))
-            
-            if (self.Result[2] < self.radius_threshold) :
+
+            if (self.Result[2] < self.radius_threshold) : # radius dekhiyo aur iske jaga jab mid mai ho use respect mai replace kar diyo
 
                 if self.theta_error > 0  and (self.theta_precision < abs(self.theta_error)) :
                     self.move(0.3 , self.at*self.theta_error)
@@ -122,11 +127,83 @@ class Robot_Controller:
                 elif self.theta_error < 0 and (self.theta_precision > abs(self.theta_error) ):
                     self.move(0 , self.at*self.theta_error)
                 else :
-                    self.move(0 , 0)
-                    self.parking_bot()
-        else   :
-            self.move(0, 0.2)
+                    self.move(0 , 0.2)
+                    # self.parking_bot()
+
+        elif self.detect.markerID1 == 2 and self.detect.radius1 != None and self.detect.center != None:
+            Flag = False
+            aruco_position = self.Result[1][0]
+            self.theta_error = int(x_length) / 2 - aruco_position
+
+            rospy.loginfo("aruco_postion" + str(aruco_position))
+            rospy.loginfo("x lenght" + str(x_length))
+            rospy.loginfo("radius" + str(self.Result[2]))
+            rospy.loginfo("theta error " + str(self.theta_error))
+
+            if (self.Result[2] < self.radius_threshold):
+
+                if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
+                    self.move(0.3, self.at * self.theta_error)
+                    print("left")
+                elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
+                    self.move(0.3, self.at * self.theta_error)
+                    print("right")
+                else:
+                    self.move(0.3, 0)
+                    print("straight")
+            else:
+
+                if self.theta_error > 0 and (self.theta_precision > abs(self.theta_error)):
+                    self.move(0, self.at * self.theta_error)
+                elif self.theta_error < 0 and (self.theta_precision > abs(self.theta_error)):
+                    self.move(0, self.at * self.theta_error)
+                else:
+                    self.move(0, -0.2)
+                    # self.parking_bot()
+        elif self.detect.markerID1 == 3 and self.detect.radius1 != None and self.detect.center != None: # yaha 70 ki jaga value daliyo jo condition satisfy kar jaye and bot starting mai 3 ki taraf na jaye
+            aruco_position = self.Result[1][0]
+            self.theta_error = int(x_length) / 2 - aruco_position
+
+            rospy.loginfo("aruco_postion" + str(aruco_position))
+            rospy.loginfo("x lenght" + str(x_length))
+            rospy.loginfo("radius" + str(self.Result[2]))
+            rospy.loginfo("theta error " + str(self.theta_error))
+
+            if (self.Result[2] < self.radius_threshold):
+                if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
+                    self.move(0.3, self.at * self.theta_error)
+                    print("left")
+                elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
+                    self.move(0.3, self.at * self.theta_error)
+                    print("right")
+                else:
+                    self.move(0.3, 0)
+                    print("straight")
+            else:
+
+                if self.theta_error > 0 and (self.theta_precision > abs(self.theta_error)):
+                    self.move(0, self.at * self.theta_error)
+                elif self.theta_error < 0 and (self.theta_precision > abs(self.theta_error)):
+                    self.move(0, self.at * self.theta_error)
+                else:
+                    self.move(0, 0)
+                    #self.parking_bot()
+        elif self.detect.markerID1 > 3:
             pass
+
+
+
+        else:
+            if flag == True:
+                self.move(0, 0.2)
+                pass
+            elif flag == False:
+                self.move(0, -0.2)
+                pass
+            else:
+                pass
+
+
         cv2.imshow("image" , self.Result[0])
         cv2.waitKey(1)        
 
