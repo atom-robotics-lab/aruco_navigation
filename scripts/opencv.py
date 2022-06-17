@@ -11,6 +11,7 @@ import math
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_250)
 
 arucoParams = cv2.aruco.DetectorParameters_create()
+vid = cv2.VideoCapture(0)
 
 class detection ():
     def __init__ (self) :
@@ -45,7 +46,7 @@ class detection ():
                 radius = int(math.sqrt((int(topRight[0]) - int(bottomLeft[0]))**2 + (int(topRight[1]) - int(bottomLeft[1]))**2)/2)
                 cX = int((topLeft[0] + bottomRight[0]) / 2.0)
                 cY = int((topLeft[1] + bottomRight[1]) / 2.0)
-                cv2.circle(gray, (cX, cY), radius, (312,0,0), 3)
+                cv2.circle(gray, (cX, cY), radius, (0,0,255), 3)
                 
                 cv2.putText(gray, str(markerID),
                     (topLeft[0], topLeft[1] - 15),
