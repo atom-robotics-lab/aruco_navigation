@@ -18,7 +18,7 @@
         <arg name="headless" value="false"/>
         <arg name="debug" value="false"/>
     </include>
-
+<rosparam file="$(find aruco_navigation)/config/aruco_navigation.yaml" command="load" />
 </launch>
 
 
