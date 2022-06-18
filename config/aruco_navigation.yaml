@@ -1,5 +1,5 @@
 aruco_navigation:
-  theta_precision: 0.5
+  theta_precision: 1.5
   linear_p: 0.009
   radius_threshold : 150
   angular_p: 0.001
