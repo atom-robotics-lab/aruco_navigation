@@ -27,7 +27,13 @@ class Robot_Controller:
         self.detect = detection()
         self.detect.T = 3
 
- 
+    # def odom_callback(self, data):
+    #
+    #     x = data.pose.pose.orientation.x
+    #     y = data.pose.pose.orientation.y
+    #     z = data.pose.pose.orientation.z
+    #     w = data.pose.pose.orientation.w
+    #     self.pose = [data.pose.pose.position.x, data.pose.pose.position.y, euler_from_quaternion([x, y, z, w])[2]]
 
     def move(self, linear, angular):
         self.velocity_msg.linear.x = linear
@@ -37,7 +43,13 @@ class Robot_Controller:
 
         self.pub.publish(self.velocity_msg)
 
-    
+    # def parking_bot(self):
+    #
+    #     bot_theta = self.pose[2]
+    #     theta_goal = np.arcsin(1)
+    #
+    #     rospy.loginfo("bot theta " + str(bot_theta))
+    #     self.move(0, 0.5)
 
     def callback(self, data):
         try:
@@ -66,36 +78,36 @@ class Robot_Controller:
             rospy.loginfo("radius" + str(self.Result[2]))
             rospy.loginfo("theta error " + str(self.theta_error))
 
-            if (self.Result[2] < self.radius_threshold):  
+            if (self.Result[2] < self.radius_threshold):
                 self.detect.T = 3
                 if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
                               self.angular_p * self.theta_error)
 
                     self.detect.T = 1
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "MOVE FORWARD",
+                                (400, 800),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (255, 0, 0), 3)
 
                     print("left")
                 elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
                               self.angular_p * self.theta_error)
                     self.detect.T = 2
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "MOVE FORWARD",
+                                (400, 800),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (255, 0, 0), 3)
 
                     print("right")
                 else:
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]), 0)
                     self.detect.T = 3
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "MOVE FORWARD",
+                                (400, 800),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (255, 0, 0), 3)
 
                     print("straight")
             else:
@@ -106,12 +118,13 @@ class Robot_Controller:
                     self.move(0, self.angular_p * self.theta_error)
                 else:
                     self.detect.T == 1
-                    cv2.putText(self.Result[0], "LEFT",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "LEFT",
+                                (400, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (123, 12, 3), 3)
 
                     self.move(0, 0.2)
+                    # self.parking_bot()
 
         elif self.detect.markerID1 == 2 and self.detect.radius1 != None and self.detect.center != None:
             self.detect.T = 3
@@ -127,30 +140,32 @@ class Robot_Controller:
             if (self.Result[2] < self.radius_threshold):
 
                 if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), self.angular_p * self.theta_error)
+                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
+                              self.angular_p * self.theta_error)
                     self.detect.T == 1
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "MOVE FORWARD",
+                                (400, 800),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (255, 0, 0), 3)
 
                     print("left")
                 elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), self.angular_p * self.theta_error)
+                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
+                              self.angular_p * self.theta_error)
                     self.detect.T == 2
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "MOVE FORWARD",
+                                (400, 800),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (255, 0, 0), 3)
 
                     print("right")
                 else:
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]), 0)
                     self.detect.T == 3
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "MOVE FORWARD",
+                                (400, 800),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (255, 0, 0), 3)
 
                     print("straight")
             else:
@@ -161,13 +176,13 @@ class Robot_Controller:
                     self.move(0, self.angular_p * self.theta_error)
                 else:
                     self.detect.T == 2
-                    cv2.putText(self.Result[0], "RIGHT",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "RIGHT",
+                                (400, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (123, 12, 3), 3)
 
                     self.move(0, -0.2)
-
+                    # self.parking_bot()
         elif self.detect.markerID1 == 3 and self.detect.radius1 != None and self.detect.center != None:  # yaha 70 ki jaga value daliyo jo condition satisfy kar jaye and bot starting mai 3 ki taraf na jaye
             self.detect.T = 3
             aruco_position = self.Result[1][0]
@@ -180,28 +195,30 @@ class Robot_Controller:
 
             if (self.Result[2] < self.radius_threshold):
                 if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), self.angular_p * self.theta_error)
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
+                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
+                              self.angular_p * self.theta_error)
+                    cv2.putText(self.Result[4], "MOVE FORWARD",
+                                (400, 800),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (255, 0, 0), 3)
 
                     print("left")
                 elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), self.angular_p * self.theta_error)
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
+                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
+                              self.angular_p * self.theta_error)
+                    cv2.putText(self.Result[4], "MOVE FORWARD",
+                                (400, 800),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (255, 0, 0), 3)
 
                     print("right")
                 else:
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]), 0)
                     self.detect.T == 3
-                    cv2.putText(self.Result[0], "RIGHT",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "RIGHT",
+                                (400, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (123, 12, 3), 3)
 
                     print("straight")
             else:
@@ -211,18 +228,18 @@ class Robot_Controller:
                 elif self.theta_error < 0 and (self.theta_precision > abs(self.theta_error)):
                     self.move(0, self.angular_p * self.theta_error)
                 else:
-                    cv2.putText(self.Result[0], "REACHED",
-                                (0, 200),
+                    cv2.putText(self.Result[4], "REACHED",
+                                (400, 800),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                                1, (255, 0, 0), 3)
                     self.move(0, 0)
-
+                    # self.parking_bot()
         elif self.detect.markerID1 > 3:
             self.detect.T == 3
-            cv2.putText(self.Result[0], "RIGHT",
-                        (0, 200),
+            cv2.putText(self.Result[4], "RIGHT",
+                        (400, 100),
                         cv2.FONT_HERSHEY_SIMPLEX,
-                        2, (600, 600, 600), 2)
+                        1, (123, 12, 3), 3)
             pass
 
 
@@ -230,28 +247,27 @@ class Robot_Controller:
         else:
             if flag == True:
                 self.detect.T = 1
-                cv2.putText(self.Result[0], "LEFT",
-                            (0, 200),
+                cv2.putText(self.Result[4], "LEFT",
+                            (400, 100),
                             cv2.FONT_HERSHEY_SIMPLEX,
-                            2, (600, 600, 600), 2)
+                            1, (123, 12, 3), 3)
 
                 self.move(0, 0.2)
                 pass
             elif flag == False:
                 self.detect.T = 2
-                cv2.putText(self.Result[0], "RIGHT",
-                            (0, 200),
+                cv2.putText(self.Result[4], "RIGHT",
+                            (400, 100),
                             cv2.FONT_HERSHEY_SIMPLEX,
-                            2, (600, 600, 600), 2)
+                            1, (123, 12, 3), 3)
 
                 self.move(0, -0.2)
                 pass
             else:
                 pass
 
-        cv2.imshow("image", self.Result[0])
+        cv2.imshow("image", self.Result[4])
         cv2.waitKey(1)
-
 
 def main():
     rospy.init_node("robot controller", anonymous=True)
@@ -263,6 +279,20 @@ def main():
 
         print("error")
     cv2.destroyAllWindows()
+
+main()
+
+
+def main():
+    rospy.init_node("robot controller", anonymous=True)
+    of = Robot_Controller()
+    try:
+        rospy.spin()
+
+    except:
+
+        print("error")
+cv2.destroyAllWindows()
 
 
 main()
