@@ -67,11 +67,4 @@ class detection():
 
         return [gray, self.center, self.radius1, self.markerID1, image]
 
-# if __name__== "__main__" :
-#
-#     det = detection()
-#     det1 = det.aruco_detection(cv2.imread("/home/ayan/trying.png"))
-#
-#     cv2.imshow("gray" , det1[0])
-#     print(det1[1])
-#     cv2.waitKey(0)
+
