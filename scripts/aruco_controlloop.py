@@ -23,11 +23,12 @@ class Robot_Controller:
         self.linear_p=rospy.get_param("aruco_navigation/linear_p") 
        
         self.id = None
-        
+        self.buffer = 0.001
         self.detect = detection()
         self.detect.T = 3
-
- 
+        self.lt = ""
+        self.at = ""
+    
 
     def move(self, linear, angular):
         self.velocity_msg.linear.x = linear
@@ -38,26 +39,32 @@ class Robot_Controller:
         self.pub.publish(self.velocity_msg)
 
     
-
     def callback(self, data):
         try:
             self.cv1_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
-
             self.control_loop()
-            rospy.loginfo("Marker Id = " + str(self.detect.markerID1))
-            rospy.loginfo("radius = " + str(self.detect.radius1))
-
         except CvBridgeError as e:
             print(e)
+
+    def direction(self , markerID):
+
+        if markerID == 1:
+            return 0.2 , "Turning Left" ,"ID - 1"
+        elif markerID == 2:
+            return -0.2 , "Turning Right" ,"ID -2" 
+        else:
+            return 0, " Reached " , "ID - 3"
+
 
     def control_loop(self):
 
         self.Result = self.detect.aruco_detection(self.cv1_image)
 
         x_length = self.Result[0].shape[0]
+    
 
-        flag = True
-        if self.detect.markerID1 == 1 and self.detect.center != None and self.detect.radius1 != None:
+        
+        if self.detect.markerID1 != 0 and self.detect.center != None and self.detect.radius1 != None:
             aruco_position = self.Result[1][0]
             self.theta_error = int(x_length) / 2 - aruco_position
 
@@ -66,192 +73,50 @@ class Robot_Controller:
             rospy.loginfo("radius" + str(self.Result[2]))
             rospy.loginfo("theta error " + str(self.theta_error))
 
-            if (self.Result[2] < self.radius_threshold):  
+            if (self.Result[2] < self.radius_threshold):
                 self.detect.T = 3
                 if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
-                              self.angular_p * self.theta_error)
+                              self.angular_p * self.theta_error - self.buffer*self.theta_error)
 
-                    self.detect.T = 1
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-
+                    self.at = " <-Moving Left"
+                    self.lt = ""
                     print("left")
+
                 elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
-                              self.angular_p * self.theta_error)
-                    self.detect.T = 2
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-
+                              self.angular_p * self.theta_error + self.buffer*self.theta_error )
+                    self.at = " Moving Right->"
+                    self.lt = ""
                     print("right")
+
                 else:
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]), 0)
-                    self.detect.T = 3
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                    self.at = " Moving Straight "
+                    self.lt = ""
 
                     print("straight")
             else:
 
                 if self.theta_error > 0 and (self.theta_precision > abs(self.theta_error)):
                     self.move(0, self.angular_p * self.theta_error)
+                    
                 elif self.theta_error < 0 and (self.theta_precision > abs(self.theta_error)):
                     self.move(0, self.angular_p * self.theta_error)
                 else:
-                    self.detect.T == 1
-                    cv2.putText(self.Result[0], "LEFT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
+                    angular = self.direction(self.detect.markerID1)
+                    self.lt = angular[1]
+                    self.at = ""
+                    self.move(0,angular[0])
+                    
+                    
 
-                    self.move(0, 0.2)
+       
+        cv2.putText(self.Result[4],self.at,(330,800),cv2.FONT_HERSHEY_SIMPLEX,2,(0, 0, 0), 3,cv2.LINE_AA)
+        cv2.putText(self.Result[4],self.lt,(400,100),cv2.FONT_HERSHEY_SIMPLEX,2,(0, 0, 0), 3,cv2.LINE_AA)
 
-        elif self.detect.markerID1 == 2 and self.detect.radius1 != None and self.detect.center != None:
-            self.detect.T = 3
-            Flag = False
-            aruco_position = self.Result[1][0]
-            self.theta_error = int(x_length) / 2 - aruco_position
-
-            rospy.loginfo("aruco_postion" + str(aruco_position))
-            rospy.loginfo("x lenght" + str(x_length))
-            rospy.loginfo("radius" + str(self.Result[2]))
-            rospy.loginfo("theta error " + str(self.theta_error))
-
-            if (self.Result[2] < self.radius_threshold):
-
-                if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), self.angular_p * self.theta_error)
-                    self.detect.T == 1
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-
-                    print("left")
-                elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), self.angular_p * self.theta_error)
-                    self.detect.T == 2
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-
-                    print("right")
-                else:
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), 0)
-                    self.detect.T == 3
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-
-                    print("straight")
-            else:
-
-                if self.theta_error > 0 and (self.theta_precision > abs(self.theta_error)):
-                    self.move(0, self.angular_p * self.theta_error)
-                elif self.theta_error < 0 and (self.theta_precision > abs(self.theta_error)):
-                    self.move(0, self.angular_p * self.theta_error)
-                else:
-                    self.detect.T == 2
-                    cv2.putText(self.Result[0], "RIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-
-                    self.move(0, -0.2)
-
-        elif self.detect.markerID1 == 3 and self.detect.radius1 != None and self.detect.center != None:  # yaha 70 ki jaga value daliyo jo condition satisfy kar jaye and bot starting mai 3 ki taraf na jaye
-            self.detect.T = 3
-            aruco_position = self.Result[1][0]
-            self.theta_error = int(x_length) / 2 - aruco_position
-
-            rospy.loginfo("aruco_postion" + str(aruco_position))
-            rospy.loginfo("x lenght" + str(x_length))
-            rospy.loginfo("radius" + str(self.Result[2]))
-            rospy.loginfo("theta error " + str(self.theta_error))
-
-            if (self.Result[2] < self.radius_threshold):
-                if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), self.angular_p * self.theta_error)
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-
-                    print("left")
-                elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), self.angular_p * self.theta_error)
-                    cv2.putText(self.Result[0], "STRAIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-
-                    print("right")
-                else:
-                    self.move(self.linear_p * (self.radius_threshold - self.Result[2]), 0)
-                    self.detect.T == 3
-                    cv2.putText(self.Result[0], "RIGHT",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-
-                    print("straight")
-            else:
-
-                if self.theta_error > 0 and (self.theta_precision > abs(self.theta_error)):
-                    self.move(0, self.angular_p * self.theta_error)
-                elif self.theta_error < 0 and (self.theta_precision > abs(self.theta_error)):
-                    self.move(0, self.angular_p * self.theta_error)
-                else:
-                    cv2.putText(self.Result[0], "REACHED",
-                                (0, 200),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                2, (600, 600, 600), 2)
-                    self.move(0, 0)
-
-        elif self.detect.markerID1 > 3:
-            self.detect.T == 3
-            cv2.putText(self.Result[0], "RIGHT",
-                        (0, 200),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        2, (600, 600, 600), 2)
-            pass
-
-
-
-        else:
-            if flag == True:
-                self.detect.T = 1
-                cv2.putText(self.Result[0], "LEFT",
-                            (0, 200),
-                            cv2.FONT_HERSHEY_SIMPLEX,
-                            2, (600, 600, 600), 2)
-
-                self.move(0, 0.2)
-                pass
-            elif flag == False:
-                self.detect.T = 2
-                cv2.putText(self.Result[0], "RIGHT",
-                            (0, 200),
-                            cv2.FONT_HERSHEY_SIMPLEX,
-                            2, (600, 600, 600), 2)
-
-                self.move(0, -0.2)
-                pass
-            else:
-                pass
-
-        cv2.imshow("image", self.Result[0])
+        cv2.imshow("image", self.Result[4])
         cv2.waitKey(1)
-
 
 def main():
     rospy.init_node("robot controller", anonymous=True)
@@ -264,5 +129,6 @@ def main():
         print("error")
     cv2.destroyAllWindows()
 
-
 main()
+
+
