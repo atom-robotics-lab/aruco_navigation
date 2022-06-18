@@ -69,14 +69,16 @@ To open your bashrc file
 ```bash
 nano ~/.bashrc
 ```
-```bash
-source ~/.bashrc
-```
+
 
 ```bash
 source /usr/share/gazebo/setup.bash
 export GAZEBO_MODEL_PATH="${CATKIN_ENV_HOOK_WORKSPACE}/../src/aruco_navigation/models/:${GAZEBO_MODEL_PATH}"
 export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$HOME/path_to_your_catkin_workspace/src/aruco_navigation/models
+```
+
+```bash
+source ~/.bashrc
 ```
 
 <br><br>
