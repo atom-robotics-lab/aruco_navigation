@@ -27,13 +27,7 @@ class Robot_Controller:
         self.detect = detection()
         self.detect.T = 3
 
-    # def odom_callback(self, data):
-    #
-    #     x = data.pose.pose.orientation.x
-    #     y = data.pose.pose.orientation.y
-    #     z = data.pose.pose.orientation.z
-    #     w = data.pose.pose.orientation.w
-    #     self.pose = [data.pose.pose.position.x, data.pose.pose.position.y, euler_from_quaternion([x, y, z, w])[2]]
+    
 
     def move(self, linear, angular):
         self.velocity_msg.linear.x = linear
@@ -43,14 +37,7 @@ class Robot_Controller:
 
         self.pub.publish(self.velocity_msg)
 
-    # def parking_bot(self):
-    #
-    #     bot_theta = self.pose[2]
-    #     theta_goal = np.arcsin(1)
-    #
-    #     rospy.loginfo("bot theta " + str(bot_theta))
-    #     self.move(0, 0.5)
-
+    
     def callback(self, data):
         try:
             self.cv1_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
