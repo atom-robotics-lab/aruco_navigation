@@ -51,23 +51,7 @@ class detection():
                             cv2.FONT_HERSHEY_SIMPLEX,
                             0.5, (0, 0, 0), 2)
 
-                # if self.T == 2:
-                #     cv2.putText(gray, "RIGHT",
-                #                       (0, 200),
-                #                       cv2.FONT_HERSHEY_SIMPLEX,
-                #                       2, (600, 600, 600), 2)
-                #
-                # elif self.T == 1:
-                #     cv2.putText(gray, "LEFT",
-                #                           (0, 200),
-                #                           cv2.FONT_HERSHEY_SIMPLEX,
-                #                           2, (600, 600, 600), 2)
-                #
-                # else:
-                #     cv2.putText(gray, "STRAIGHT",
-                #                           (0, 200),
-                #                           cv2.FONT_HERSHEY_SIMPLEX,
-                #                           2, (600, 600, 600), 2)
+                
 
                 # center = (cX ,cY)
                 self.center = (((topLeft[0] + bottomRight[0]) / 2.0), ((topLeft[1] + bottomRight[1]) / 2.0))
