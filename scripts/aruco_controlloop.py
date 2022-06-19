@@ -49,9 +49,9 @@ class Robot_Controller:
     def direction(self , markerID):
 
         if markerID == 1:
-            return 0.2 , "Turning Left" ,"ID - 1"
+            return 0.3 , "Turning Left " ,"ID - 1"
         elif markerID == 2:
-            return -0.2 , "Turning Right" ,"ID -2" 
+            return -0.3 , "Turning Right" ,"ID -2" 
         else:
             return 0, " Reached " , "ID - 3"
 
@@ -61,7 +61,7 @@ class Robot_Controller:
         self.Result = self.detect.aruco_detection(self.cv1_image)
 
         x_length = self.Result[0].shape[0]
-    
+        x_length = x_length + 40
 
         
         if self.detect.markerID1 != 0 and self.detect.center != None and self.detect.radius1 != None:
@@ -77,7 +77,7 @@ class Robot_Controller:
                 self.detect.T = 3
                 if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
-                              self.angular_p * self.theta_error - self.buffer*self.theta_error)
+                              self.angular_p * self.theta_error )
 
                     self.at = " <-Moving Left"
                     self.lt = ""
@@ -85,7 +85,7 @@ class Robot_Controller:
 
                 elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
-                              self.angular_p * self.theta_error + self.buffer*self.theta_error )
+                              self.angular_p * self.theta_error -self.buffer*self.theta_error )
                     self.at = " Moving Right->"
                     self.lt = ""
                     print("right")
@@ -112,8 +112,8 @@ class Robot_Controller:
                     
 
        
-        cv2.putText(self.Result[4],self.at,(330,800),cv2.FONT_HERSHEY_SIMPLEX,2,(0, 0, 0), 3,cv2.LINE_AA)
-        cv2.putText(self.Result[4],self.lt,(400,100),cv2.FONT_HERSHEY_SIMPLEX,2,(0, 0, 0), 3,cv2.LINE_AA)
+        cv2.putText(self.Result[4],self.at,(300,800),cv2.FONT_HERSHEY_SIMPLEX,2,(0, 0, 0), 3,cv2.LINE_AA)
+        cv2.putText(self.Result[4],self.lt,(350,100),cv2.FONT_HERSHEY_SIMPLEX,2,(0, 0, 0), 3,cv2.LINE_AA)
 
         cv2.imshow("image", self.Result[4])
         cv2.waitKey(1)
