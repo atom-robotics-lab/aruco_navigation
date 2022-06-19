@@ -47,11 +47,11 @@ class Robot_Controller:
     def direction(self, markerID):
 
         if markerID == 1:
-            return 0.3, "Turning Left ", "ID - 1"
+            return 0.3, "Turning Left ", "Stop"
         elif markerID == 2:
-            return -0.3, "Turning Right", "ID -2"
+            return -0.3, "Turning Right", "Stop"
         else:
-            return 0, " Parked ", "ID - 3"
+            return 0, "", "Parked"
 
     def control_loop(self):
 
@@ -89,7 +89,7 @@ class Robot_Controller:
                 else:
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]), 0)
                     self.at = " centre "
-                    self.lt = ""
+                    self.lt = "Move Forward"
 
                     print("straight")
             else:
@@ -101,8 +101,8 @@ class Robot_Controller:
                     self.move(0, self.angular_p * self.theta_error)
                 else:
                     angular = self.direction(self.detect.markerID1)
-                    self.lt = angular[1]
-                    self.at = ""
+                    self.lt = angular[2]
+                    self.at = angular[1]
                     self.move(0, angular[0])
         else:
             self.move(0,0.2)
