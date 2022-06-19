@@ -47,11 +47,11 @@ class Robot_Controller:
     def direction(self, markerID):
 
         if markerID == 1:
-            return 0.3, "Turning Left ", "Stop"
+            return 0.3, "Turning Left ", "ID - 1"
         elif markerID == 2:
-            return -0.3, "Turning Right", "Stop"
+            return -0.3, "Turning Right", "ID - 2"
         else:
-            return 0, "", "Parked"
+            return 0, "", "Parked" , "ID - 3"
 
     def control_loop(self):
 
@@ -73,22 +73,22 @@ class Robot_Controller:
                 self.detect.T = 3
                 if self.theta_error > 0 and (self.theta_precision < abs(self.theta_error)):
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
-                              self.angular_p * self.theta_error)
+                              self.angular_p * self.theta_error -  self.buffer*self.theta_error)
 
-                    self.at = " <- Left"
-                    self.lt = ""
+                    self.at = " <- LEFT"
+                    self.lt = "Move Forward"
                     print("left")
 
                 elif self.theta_error < 0 and (self.theta_precision < abs(self.theta_error)):
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]),
-                              self.angular_p * self.theta_error - self.buffer * self.theta_error)
-                    self.at = "  Right->"
-                    self.lt = ""
+                              self.angular_p * self.theta_error - self.buffer*self.theta_error)
+                    self.at = "  RIGHT->"
+                    self.lt = "Move Forward"
                     print("right")
 
                 else:
                     self.move(self.linear_p * (self.radius_threshold - self.Result[2]), 0)
-                    self.at = " centre "
+                    self.at = " CENTER "
                     self.lt = "Move Forward"
 
                     print("straight")
@@ -96,9 +96,12 @@ class Robot_Controller:
 
                 if self.theta_error > 0 and (self.theta_precision > abs(self.theta_error)):
                     self.move(0, self.angular_p * self.theta_error)
-
+                    self.at = "<- LEFT"
+                    self.lt = "Stop"
                 elif self.theta_error < 0 and (self.theta_precision > abs(self.theta_error)):
                     self.move(0, self.angular_p * self.theta_error)
+                    self.at = " RIGHT->"
+                    self.lt = "Stop"
                 else:
                     angular = self.direction(self.detect.markerID1)
                     self.lt = angular[2]
@@ -111,7 +114,7 @@ class Robot_Controller:
         cv2.putText(self.Result[4], self.lt, (300, 800), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 3, cv2.LINE_AA)
         cv2.putText(self.Result[4], self.at, (350, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 3, cv2.LINE_AA)
 
-        cv2.imshow("image", self.Result[4])
+        cv2.imshow("Frame", self.Result[4])
         cv2.waitKey(1)
 
 

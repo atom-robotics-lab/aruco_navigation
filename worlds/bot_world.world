@@ -88,38 +88,38 @@
       <pose>-9.82278 1.62418 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>17306 439000000</sim_time>
-      <real_time>125 585415042</real_time>
-      <wall_time>1655615613 731018914</wall_time>
-      <iterations>112156</iterations>
+      <sim_time>17489 172000000</sim_time>
+      <real_time>204 184130651</real_time>
+      <wall_time>1655659009 672551349</wall_time>
+      <iterations>182733</iterations>
       <model name='aruco_marker1'>
-        <pose>3.39544 9.01039 0.5 0 0 -1.67123</pose>
+        <pose>3.39544 9.01039 0.5 0 -0 -1.67123</pose>
         <scale>1 1 1</scale>
         <link name='marker'>
-          <pose>3.39544 9.01039 0.5 0 0 -1.67123</pose>
+          <pose>3.39544 9.01039 0.5 0 -0 -1.67123</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>-0 -0 0 0 -0 0</acceleration>
+          <wrench>-0 -0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='aruco_marker2'>
-        <pose>2.43302 1.5344 0.5 0 0 -0.14482</pose>
+        <pose>2.43302 1.5344 0.5 0 -0 -0.14482</pose>
         <scale>1 1 1</scale>
         <link name='marker'>
-          <pose>2.43302 1.5344 0.5 0 0 -0.14482</pose>
+          <pose>2.43302 1.5344 0.5 0 -0 -0.14482</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>-0 -0 0 0 -0 0</acceleration>
           <wrench>-0 -0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='aruco_marker3'>
-        <pose>-2.3103 7.68019 0.5 0 -0 -2.17197</pose>
+        <pose>-2.82024 7.51484 0.5 0 0 -2.17197</pose>
         <scale>1 1 1</scale>
         <link name='marker'>
-          <pose>-2.3103 7.68019 0.5 0 -0 -2.17197</pose>
+          <pose>-2.82024 7.51484 0.5 0 0 -2.17197</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>0 0 -0 0 -0 0</acceleration>
+          <wrench>0 0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='grey_wall'>
@@ -218,7 +218,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>14.2531 7.36894 10.491 0 0.682727 -3.12701</pose>
+        <pose>6.31468 4.03018 14.0628 -0 1.28273 -3.02301</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
