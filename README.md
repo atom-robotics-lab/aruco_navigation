@@ -106,6 +106,6 @@ rosrun aruco_navigation aruco_controlloop.py
 
 The given command will run the controller script which controls the robot's movements.
 
-
+<img src = "https://github.com/atom-robotics-lab/aruco_navigation/blob/main/assets/Untitled%20design%20(1).gif" >
 
 
