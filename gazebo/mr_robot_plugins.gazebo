@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<robot name="mr_robot" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+	<!--DiffDrive System Plugin-->
+	<gazebo>
+		<plugin filename="gz-sim-diff-drive-system" 
+			name="gz::sim::systems::DiffDrive">
+			<left_joint>left_motor_joint</left_joint>
+    		<right_joint>right_motor_joint</right_joint>
+    		<wheel_separation>0.199</wheel_separation>
+    		<wheel_radius>0.535</wheel_radius>
+			<topic>cmd_vel</topic>
+			<odom_topic>odom</odom_topic>
+			<tf_topic>tf</tf_topic>
+			<frame_id>odom</frame_id>
+			<child_frame_id>base_link</child_frame_id>
+    		<odom_publish_frequency>1</odom_publish_frequency>
+    		<max_linear_acceleration>1</max_linear_acceleration>
+    		<min_linear_acceleration>-1</min_linear_acceleration>
+    		<max_angular_acceleration>2</max_angular_acceleration>
+    		<min_angular_acceleration>-2</min_angular_acceleration>
+    		<max_linear_velocity>0.5</max_linear_velocity>
+    		<min_linear_velocity>-0.5</min_linear_velocity>
+    		<max_angular_velocity>1</max_angular_velocity>
+    		<min_angular_velocity>-1</min_angular_velocity>
+    	</plugin>
+	</gazebo>
+
+	<!--Joint State Publisher System Plugin-->
+	<gazebo>
+    	<plugin filename="libgz-sim-joint-state-publisher-system.so" 
+			name="gz::sim::systems::JointStatePublisher"/>
+  	</gazebo>
+	
+	<!--Lidar Sensor-->
+	<gazebo reference="lidar_1">
+    	<sensor name="front_rplidar" type="gpu_lidar">
+    	  <topic>/laser/scan</topic>
+    	  <update_rate>10</update_rate>
+    	  <lidar>
+    	    <scan>
+    	      <horizontal>
+    	        <samples>360</samples>
+    	        <resolution>1.000000</resolution>
+    	        <min_angle>0.000000</min_angle>
+    	        <max_angle>6.280000</max_angle>
+    	      </horizontal>
+    	    </scan>
+    	    <range>
+    	      <min>0.120000</min>
+    	      <max>6</max>
+    	      <resolution>0.015000</resolution>
+    	    </range>
+    	  </lidar>
+    	  <always_on>1</always_on>
+    	  <visualize>false</visualize>
+    	</sensor>
+	</gazebo>
+
+</robot>
